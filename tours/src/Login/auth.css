@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    background-size: cover;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#bg {
+    background: url('https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D') no-repeat center center fixed;
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+h2 {
+    color: #1e88e5;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+h3 {
+    color: #1976d2;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.icon {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    color: #b0bec5;
+    font-size: 18px;
+    pointer-events: none;
+    /* Prevent interaction with the icon */
+}
+
+/* Arrow for Select Dropdown */
+.select-arrow {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    color: #b0bec5;
+    font-size: 18px;
+    pointer-events: none;
+}
+
+input
+ {
+    padding: 12px 40px 12px 40px; /* Adjust padding for both left icon and right arrow */
+    border: 1px solid #b0bec5;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    width: calc(100% - 24px); /* Adjust width for padding */
+    appearance: none; /* Remove default arrow */
+    position: relative;
+    width: 93%;
+}
+
+select {
+   padding: 12px 40px 12px 40px; 
+    border: 1px solid #b0bec5;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    width: calc(100% - 24px); /* Adjust width for padding */
+    appearance: none; /* Remove default arrow */
+    position: relative;
+    padding-right: 40px;
+    width:100% /* Add padding for the dropdown arrow */
+}
+
+input:focus,
+select:focus {
+    border-color: #1e88e5;
+    box-shadow: 0 0 5px rgba(30, 136, 229, 0.5);
+}
+
+button {
+    padding: 12px;
+    background-color: #1e88e5;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #1976d2;
+}
+
+.message {
+    margin-top: 15px;
+    color: #d32f2f;
+}
+
+footer {
+    margin-top: 20px;
+}
+
+footer p {
+    color: #555;
+}
+
+footer a {
+    color: #1e88e5;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Dropdown styles */
+select option {
+    padding: 10px;
+    font-size: 16px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        max-width: 90%; /* Full width on smaller screens */
+        margin: 20px auto; /* Adjust margin */
+        padding: 20px; /* Reduce padding */
+    }
+
+    h2 {
+        font-size: 28px; /* Adjust title size */
+    }
+
+    h3 {
+        font-size: 18px; /* Adjust subtitle size */
+    }
+
+    input,
+    select {
+        font-size: 14px; /* Adjust input font size */
+    }
+
+    button {
+        font-size: 14px; /* Adjust button font size */
+    }
+}
