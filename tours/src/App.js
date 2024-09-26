@@ -38,6 +38,7 @@ import Navbar from './components/Navbar';
 import UserProfile from './Pages/UserProfile';
 import Guides from './components/Guide';
 import Cabs from './components/Cabs';
+import AdminPanel from './components2/Admin';
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
          <Route path="/userprofile" element={<UserProfile/>}/>
          <Route path="/guide" element={<Guides/>}/>
          <Route path="/cabs" element={<Cabs/>}/>
+         <Route path="/admin" element={<AdminPanel/>}/>
         
         </Routes>
       </div>

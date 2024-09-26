@@ -91,6 +91,31 @@ const Navbar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  function handleLogout() {
+    fetch('http://localhost:8000/api/logout/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${Cookies.get('auth_token')}`,
+        // Add any necessary authorization headers, e.g., 
+        // 'Authorization': `Token ${yourToken}`
+      },
+    })
+    .then((response) => {
+      if (response.ok) {
+        Cookies.remove('auth_token');
+        Cookies.remove('username');
+        // Handle successful logout (e.g., redirect to login page)
+        window.location.href = '/login'; // redirect to login page or homepage
+      } else {
+        // Handle logout failure
+        console.error('Logout failed');
+      }
+    })
+    .catch((error) => {
+      console.error('Error during logout:', error);
+    });
+  }
 
   return (
     <nav className="navbar">
@@ -123,7 +148,18 @@ const Navbar = () => {
 ) : (
   <Link to="/login">Login</Link>
 )}
-        <Link to="/places">Logout</Link>
+              <button
+        onClick={handleLogout}
+        style={{
+          color: 'black',
+          border: 'none',
+          borderRadius: '5px',
+          padding: '0.5rem 1rem',
+          cursor: 'pointer',
+        }}
+      >
+        Logout
+      </button>
       </div>
 
       {/* Mobile Menu Button */}

@@ -155,14 +155,20 @@ const Login = () => {
         const authorizationHeader = response.headers.get('Authorization');
         if (authorizationHeader) {
           const token = authorizationHeader.split(' ')[1];
+          console.log(token);
+          
           if (token) {
             
             Cookies.set('auth_token', token, { expires: 7, secure: true, sameSite: 'Lax', path: '/' });
             Cookies.set('username' , data.username ,  { expires: 7, secure: true, sameSite: 'Lax', path: '/' })
             // setSuccessMessage('Login successful!');
             console.log("success");
-            
+            if(data.username == 'admin'){
+              navigate('/admin')
+            }
+            else{
             navigate('/');
+            }
           }
         }
       } else {
