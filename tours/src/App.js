@@ -35,6 +35,9 @@ import PackageDetail from "./components2/PackageDetail";
 import Places from './Pages/Places';
 import AboutUsPage from './components/AboutUsPage';
 import Navbar from './components/Navbar';
+import UserProfile from './Pages/UserProfile';
+import Guides from './components/Guide';
+import Cabs from './components/Cabs';
 
 function App() {
   return (
@@ -51,6 +54,9 @@ function App() {
          <Route path="/package/:id" element={<PackageDetail />} />
          <Route path="/places" element={<Places/>}/>
          <Route path="/aboutus" element={<AboutUsPage/>}/>
+         <Route path="/userprofile" element={<UserProfile/>}/>
+         <Route path="/guide" element={<Guides/>}/>
+         <Route path="/cabs" element={<Cabs/>}/>
         
         </Routes>
       </div>

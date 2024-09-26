@@ -123,7 +123,7 @@ const Navbar = () => {
 ) : (
   <Link to="/login">Login</Link>
 )}
-        <Link to="/places">Places</Link>
+        <Link to="/places">Logout</Link>
       </div>
 
       {/* Mobile Menu Button */}

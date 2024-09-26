@@ -1,4 +1,8 @@
 /* Navbar styling for larger screens */
+body{
+  background-c: #000;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -7,6 +11,9 @@
     background-color: #0052cc;
     color: white;
     position: relative;
+    font-size: large;
+    font-weight: 500;
+    /* font-family: serif; */
   }
   
   .navbar-logo {
