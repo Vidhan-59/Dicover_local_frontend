@@ -900,6 +900,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { Loader2, X, Plus, Minus, Star, MapPin, Calendar, Users, Info } from 'lucide-react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CATEGORY_CHOICES = [
   'ADVENTURE', 'BEACH', 'MOUNTAIN', 'HISTORICAL', 'URBAN', 'WILDLIFE'
@@ -1006,6 +1008,24 @@ export default function HiddenGems() {
   };
   
   const handleBookGem = async () => {
+    const token = Cookies.get('auth_token');
+    
+    if (!token) {
+      // Show toast notification
+      console.log("here");
+      
+      toast.error('Please login first', {
+        position: "top-center",
+          autoClose: 3000, // 3 seconds
+      });
+      
+      // Use setTimeout to delay the redirection
+      setTimeout(() => {
+          window.location.href = '/login'; // Redirect to login page
+      }, 3000); // Wait for 3 seconds before redirecting
+      
+      return; // Exit the function
+  }
     try {
       const response = await fetch('http://localhost:8000/api/bookhiddengem/', {
         method: 'POST',
@@ -1033,6 +1053,24 @@ export default function HiddenGems() {
   };
 
   const handleBookCustomPackage = async () => {
+    const token = Cookies.get('auth_token');
+    
+    if (!token) {
+      // Show toast notification
+      console.log("here");
+      
+      toast.error('Please login first', {
+        position: "top-center",
+          autoClose: 3000, // 3 seconds
+      });
+      
+      // Use setTimeout to delay the redirection
+      setTimeout(() => {
+          window.location.href = '/login'; // Redirect to login page
+      }, 3000); // Wait for 3 seconds before redirecting
+      
+      return; // Exit the function
+  }
     try {
       const response = await fetch('http://localhost:8000/api/custom-package/', {
         method: 'POST',
@@ -1088,8 +1126,24 @@ export default function HiddenGems() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold text-center mb-8 text-indigo-800">Hidden Gems of India</h1>
+    <div className="min-h-screen bg-blue-50 p-8">
+<div className="relative text-center mb-8 rounded-lg overflow-hidden">
+  {/* Blurred background */}
+  <div
+    className="absolute inset-0 bg-cover bg-center"
+    style={{
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?cs=srgb&dl=pexels-fabianwiktor-994605.jpg&fm=jpg')`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      filter: 'blur(3px)',
+    }}
+  ></div>
+
+  {/* Text layer */}
+  <div className="relative z-10 p-24 lg:p-48">
+    <h1 className="text-5xl font-serif text-white">Hidden Gems of India</h1>
+  </div>
+</div>
       
       {/* Search and Filter Section */}
       <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
@@ -1099,7 +1153,7 @@ export default function HiddenGems() {
             placeholder="Search hidden gems..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-grow p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="flex-grow p-3 border border-blue-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
           <div className="flex flex-wrap gap-2">
             {CATEGORY_CHOICES.map(category => (
@@ -1108,8 +1162,8 @@ export default function HiddenGems() {
                 onClick={() => handleCategoryChange(category)}
                 className={`px-3 py-1 rounded-full text-sm font-medium transition-colors duration-200 ${
                   selectedCategory.includes(category)
-                    ? 'bg-indigo-600 text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-blue-100 text-blue-700 hover:bg-blue-200'
                 }`}
               >
                 {category}
@@ -1119,7 +1173,7 @@ export default function HiddenGems() {
           <select
             value={selectedState}
             onChange={(e) => setSelectedState(e.target.value)}
-            className="p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="p-3 border border-blue-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">All States</option>
             {INDIAN_STATES.map(state => (
@@ -1135,10 +1189,10 @@ export default function HiddenGems() {
           <div key={gem.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105">
             <img src={gem.photos[0]} alt={gem.name} className="w-full h-48 object-cover" />
             <div className="p-6">
-              <h2 className="text-2xl font-semibold mb-2 text-indigo-700">{gem.name}</h2>
+              <h2 className="text-2xl font-semibold mb-2 text-blue-700">{gem.name}</h2>
               <p className="text-gray-600 mb-4">{gem.description.slice(0, 100)}...</p>
               <div className="flex justify-between items-center mb-4">
-                <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
+                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
                   {gem.category}
                 </span>
                 <span className="text-gray-500 flex items-center">
@@ -1149,7 +1203,7 @@ export default function HiddenGems() {
               <div className="flex justify-between items-center">
                 <button
                   onClick={() => handleGemClick(gem)}
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-300 flex items-center"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 flex items-center"
                 >
                   <Info className="w-4 h-4 mr-2" />
                   View Details
@@ -1169,13 +1223,13 @@ export default function HiddenGems() {
 
       {/* Custom Package Section */}
       <div className="mt-12 bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4 text-indigo-800">Your Custom Package</h2>
+        <h2 className="text-2xl font-bold mb-4 text-blue-800">Your Custom Package</h2>
         {customPackage.length === 0 ? (
           <p className="text-gray-500">Your package is empty. Add some hidden gems!</p>
         ) : (
           <div className="space-y-4">
             {customPackage.map(item => (
-              <div key={item.id} className="flex items-center justify-between bg-gray-50 p-4 rounded-md">
+              <div key={item.id} className="flex items-center justify-between bg-blue-50 p-4 rounded-md">
                 <div>
                   <h3 className="font-semibold text-lg">{item.name}</h3>
                   <p className="text-sm text-gray-600">{item.state}</p>
@@ -1191,7 +1245,7 @@ export default function HiddenGems() {
             ))}
             <button
               onClick={() => setShowCustomPackageModal(true)}
-              className="w-full bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors duration-300 mt-4 flex items-center justify-center"
+              className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors duration-300 mt-4 flex items-center justify-center"
             >
               <Calendar className="w-4 h-4 mr-2" />
               Book/Create My Custom Package
@@ -1208,7 +1262,10 @@ export default function HiddenGems() {
             <input
               type="date"
               value={bookingDetails.travel_date}
-              onChange={(e) => setBookingDetails({...bookingDetails, travel_date: e.target.value})}
+              min={new Date(Date.now() + 86400000).toISOString().split("T")[0]}
+              onChange={(e) => {
+                setBookingDetails({...bookingDetails, travel_date: e.target.value});
+              }}
               className="w-full p-2 mb-4 border rounded"
             />
             <div className="flex items-center mb-4">
@@ -1231,7 +1288,7 @@ export default function HiddenGems() {
               </button>
               <button
                 onClick={handleBookGem}
-                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors duration-300"
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300"
               >
                 Book
               </button>
@@ -1255,6 +1312,7 @@ export default function HiddenGems() {
             <input
               type="date"
               value={customPackageDetails.travel_date}
+              min={new Date(Date.now() + 86400000).toISOString().split("T")[0]}
               onChange={(e) => setCustomPackageDetails({...customPackageDetails, travel_date: e.target.value})}
               className="w-full p-2 mb-4 border rounded"
             />
@@ -1278,7 +1336,7 @@ export default function HiddenGems() {
               </button>
               <button
                 onClick={handleBookCustomPackage}
-                className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors duration-300"
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300"
               >
                 Book Custom Package
               </button>
@@ -1289,14 +1347,88 @@ export default function HiddenGems() {
 
       {/* Gem Details Modal */}
       {showGemDetails && currentGem && (
-        <GemDetails
-          gem={currentGem}
-          onClose={() => setShowGemDetails(false)}
-          onBook={() => {
-            setShowGemDetails(false);
-            handleBookNow(currentGem);
-          }}
-        />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center overflow-y-auto z-50">
+          <div className="bg-white p-8 rounded-lg max-w-4xl w-full m-4 relative">
+            <button
+              onClick={() => setShowGemDetails(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <h2 className="text-3xl font-bold mb-4 text-blue-800">{currentGem.name}</h2>
+            <div className="mb-6 flex gap-4 overflow-x-auto">
+              {currentGem.photos.map((photo, index) => (
+                <img key={index} src={photo} alt={`${currentGem.name} - ${index + 1}`} className="w-64 h-48 object-cover rounded-lg" />
+              ))}
+            </div>
+            <p className="text-gray-700 mb-4">{currentGem.description}</p>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="flex items-center">
+                <MapPin className="w-5 h-5 mr-2 text-blue-600" />
+                <div>
+                  <h3 className="font-semibold text-lg">State</h3>
+                  <p>{currentGem.state}</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Info className="w-5 h-5 mr-2 text-blue-600" />
+                <div>
+                  <h3 className="font-semibold text-lg">Category</h3>
+                  <p>{currentGem.category}</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Star className="w-5 h-5 mr-2 text-blue-600" />
+                <div>
+                  <h3 className="font-semibold text-lg">Rating</h3>
+                  <p>{currentGem.rating} / 5</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Users className="w-5 h-5 mr-2 text-blue-600" />
+                <div>
+                  <h3 className="font-semibold text-lg">Views</h3>
+                  <p>{currentGem.number_of_person_views}</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <div className="w-5 h-5 mr-2 text-blue-600 flex items-center justify-center">₹</div>
+                <div>
+                  <h3 className="font-semibold text-lg">Price</h3>
+                  <p>₹{currentGem.price}</p>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <Calendar className="w-5 h-5 mr-2 text-blue-600" />
+                <div>
+                  <h3 className="font-semibold text-lg">Best Time to Visit</h3>
+                  <p>{currentGem.best_time}</p>
+                </div>
+              </div>
+            </div>
+            <div className="mb-4">
+              <h3 className="font-semibold text-lg">Additional Information</h3>
+              <p>{currentGem.additional_info}</p>
+            </div>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowGemDetails(false)}
+                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition-colors duration-300"
+              >
+                Close
+              </button>
+              <button
+                onClick={() => {
+                  setShowGemDetails(false);
+                  handleBookNow(currentGem);
+                }}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors duration-300"
+              >
+                Book Now
+              </button>
+            </div>  
+          </div>
+        </div>
       )}
 
       {/* Notification */}
@@ -1309,116 +1441,6 @@ export default function HiddenGems() {
           {notification.message}
         </div>
       )}
-    </div>
-  );
-}
-
-function GemDetails({ gem, onClose, onBook }) {
-  const [fullGemDetails, setFullGemDetails] = useState(null);
-
-  useEffect(() => {
-    fetchGemDetails();
-  }, []);
-
-  const fetchGemDetails = async () => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/hidden_gems/${gem.id}/`);
-      const data = await response.json();
-      setFullGemDetails(data);
-    } catch (error) {
-      console.error('Error fetching gem details:', error);
-    }
-  };
-
-  if (!fullGemDetails) {
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-lg">
-          <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center overflow-y-auto z-50">
-      <div className="bg-white p-8 rounded-lg max-w-4xl w-full m-4 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-        >
-          <X className="w-6 h-6" />
-        </button>
-        <h2 className="text-3xl font-bold mb-4 text-indigo-800">{fullGemDetails.name}</h2>
-        <div className="mb-6 flex gap-4 overflow-x-auto">
-          {fullGemDetails.photos.map((photo, index) => (
-            <img key={index} src={photo} alt={`${fullGemDetails.name} - ${index + 1}`} className="w-64 h-48 object-cover rounded-lg" />
-          ))}
-        </div>
-        <p className="text-gray-700 mb-4">{fullGemDetails.description}</p>
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="flex items-center">
-            <MapPin className="w-5 h-5 mr-2 text-indigo-600" />
-            <div>
-              <h3 className="font-semibold text-lg">State</h3>
-              <p>{fullGemDetails.state}</p>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <Info className="w-5 h-5 mr-2 text-indigo-600" />
-            <div>
-              <h3 className="font-semibold text-lg">Category</h3>
-              <p>{fullGemDetails.category}</p>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <Star className="w-5 h-5 mr-2 text-indigo-600" />
-            <div>
-              <h3 className="font-semibold text-lg">Rating</h3>
-              <p>{fullGemDetails.rating} / 5</p>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <Users className="w-5 h-5 mr-2 text-indigo-600" />
-            <div>
-              <h3 className="font-semibold text-lg">Views</h3>
-              <p>{fullGemDetails.number_of_person_views}</p>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <div className="w-5 h-5 mr-2 text-indigo-600 flex items-center justify-center">₹</div>
-            <div>
-              <h3 className="font-semibold text-lg">Price</h3>
-              <p>₹{fullGemDetails.price}</p>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <Calendar className="w-5 h-5 mr-2 text-indigo-600" />
-            <div>
-              <h3 className="font-semibold text-lg">Best Time to Visit</h3>
-              <p>{fullGemDetails.best_time}</p>
-            </div>
-          </div>
-        </div>
-        <div className="mb-4">
-          <h3 className="font-semibold text-lg">Additional Information</h3>
-          <p>{fullGemDetails.additional_info}</p>
-        </div>
-        <div className="flex justify-end gap-4">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 transition-colors duration-300"
-          >
-            Close
-          </button>
-          <button
-            onClick={onBook}
-            className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors duration-300"
-          >
-            Book Now
-          </button>
-        </div>  
-      </div>
     </div>
   );
 }

@@ -23,16 +23,15 @@ function HomePage() {
 ];
   return (
     <div>
-      <Navbar />  {/* Include the Navbar component here */}
+      <Navbar/>  {/* Include the Navbar component here */}
       <ImageSlider/>
-      <DestinationBlock/>
+      {/* <DestinationBlock/> */}
       <PopularDestinations/>
       <TourCategories/>
       <ImageDetailsPage/>
       <ExperienceCounters/>
       <Gallery/>
       <TourGuideSwiper/>
-      
       <TestimonialSlider/>
       <CarouselSlider/>
       <WhyChooseUs/>

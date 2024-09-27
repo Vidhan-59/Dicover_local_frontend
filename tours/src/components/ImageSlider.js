@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import './ImageSlider.css';
-
+import { useNavigate } from 'react-router-dom';
 const imageData = [
   {
     imgSrc: 'https://plus.unsplash.com/premium_photo-1672115680958-54438df0ab82?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW91bnRhaW5zfGVufDB8fDB8fHww',
-    title: 'Beautiful Destination 1',
+    title: 'MANALI',
     description: 'Explore the serene beauty of this amazing destination.',
-    moreInfoLink: '#'
+    
   },
   {
     imgSrc: 'https://media.cnn.com/api/v1/images/stellar/prod/230224150645-01-best-beaches-world-tripadvisor-2023-card.jpg?c=original',
-    title: 'Beautiful Destination 2',
+    title: 'GOA',
     description: 'An adventurous destination for thrill-seekers.',
-    moreInfoLink: '#'
+    
   },
   {
     imgSrc: 'https://images.pexels.com/photos/158028/bellingrath-gardens-alabama-landscape-scenic-158028.jpeg?cs=srgb&dl=pexels-pixabay-158028.jpg&fm=jpg',
-    title: 'Beautiful Destination 3',
+    title: 'J&K',
     description: 'Perfect for a relaxing getaway with scenic views.',
-    moreInfoLink: '#'
+  
   }
 ];
 
 const ImageSlider = () => {
+  const navigate  = useNavigate()
   const [currentIndex, setCurrentIndex] = useState(0);
   
   // Change image every 5 seconds
@@ -57,6 +58,7 @@ const ImageSlider = () => {
         <a
           href={imageData[currentIndex].moreInfoLink}
           className="view-more-button"
+          onClick={console.log('hree')}
         >
           View More
         </a>

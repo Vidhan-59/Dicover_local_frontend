@@ -1153,122 +1153,154 @@
 
 
 
-import Cookies  from 'js-cookie';
-import React, { useState, useEffect } from 'react';
-import { Star, Calendar, DollarSign, Clock, Users, MapPin, ChevronRight, X, Camera, Compass, Sunrise, Sunset, Coffee, Utensils } from 'lucide-react';
-
+import React, { useState, useEffect  } from 'react'
+import Cookies from 'js-cookie'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { Star, Calendar, DollarSign, Clock, Users, MapPin, ChevronRight, X, Camera, Compass, Sunrise, Sunset, Coffee, Utensils } from 'lucide-react'
+import Navbar from '../components/Navbar'
+import { useNavigate } from 'react-router-dom';
 function Packages() {
-  const [packages, setPackages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedPackage, setSelectedPackage] = useState(null);
-  const [selectedDate, setSelectedDate] = useState('');
-  const [activeTab, setActiveTab] = useState('overview');
-  const [numberOfPersons, setNumberOfPersons] = useState(1);
-  const [bookingError, setBookingError] = useState('');
+  const navigate  = useNavigate()
+  const [packages, setPackages] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [selectedPackage, setSelectedPackage] = useState(null)
+  const [selectedDate, setSelectedDate] = useState('')
+  const [activeTab, setActiveTab] = useState('overview')
+  const [numberOfPersons, setNumberOfPersons] = useState(1)
+  const [bookingError, setBookingError] = useState('')
 
   useEffect(() => {
-    fetchPackages();
-  }, []);
+    fetchPackages()
+  }, [])
 
   const fetchPackages = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/add_static_package/');
+      const response = await fetch('http://localhost:8000/api/add_static_package/')
       if (!response.ok) {
-        throw new Error('Failed to fetch packages');
+        throw new Error('Failed to fetch packages')
       }
-      const data = await response.json();
-      setPackages(data);
-      setLoading(false);
+      const data = await response.json()
+      setPackages(data)
+      setLoading(false)
     } catch (err) {
-      setError(err.message);
-      setLoading(false);
+      setError(err.message)
+      setLoading(false)
     }
-  };
+  }
 
   const handlePackageClick = (pkg) => {
-    setSelectedPackage(pkg);
-    setSelectedDate('');
-    setActiveTab('overview');
-    setNumberOfPersons(1);
-    setBookingError('');
-  };
+    setSelectedPackage(pkg)
+    setSelectedDate('')
+    setActiveTab('overview')
+    setNumberOfPersons(1)
+    setBookingError('')
+  }
 
   const handleDateSelect = async (packageId, date) => {
-    const slots = selectedPackage.slots[date.split('T')[0]];
+    const slots = selectedPackage.slots[date.split(' ')[0]]
     if (numberOfPersons > slots) {
-      setBookingError(`Only ${slots} slots available for this date.`);
-      return;
+      setBookingError(`Only ${slots} slots available for this date.`)
+      return
     }
 
     try {
-        const date1 = date.slice(0, 10);
-        console.log(date1);
-        
+      const date1 = date.slice(0, 10)
+      const token = Cookies.get('auth_token')
+
+      if (!token) {
+        toast.error('Please login first', {
+          position: "top-center",
+          autoClose: 3000,
+        })
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 3000)
+        return
+      }
+
       const response = await fetch('http://localhost:8000/api/bookstaticpackage/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${Cookies.get('auth_token')}`,
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
-            package_id: packageId,
-            travel_date: date1,
+          package_id: packageId,
+          travel_date: date1,
           number_of_persons: numberOfPersons,
         }),
-      });
+      })
 
       if (response.ok) {
-        alert('Booking successful!');
-        setSelectedPackage(null);
+        toast.success('Booking successful!')
+        setSelectedPackage(null)
+        navigate('/guide');
       } else {
-        throw new Error('Booking failed');
+        throw new Error('Booking failed')
       }
     } catch (error) {
-      setBookingError('Error booking package: ' + error.message);
+      setBookingError('Error booking package: ' + error.message)
+      toast.error('Error booking package: ' + error.message)
     }
-  };
+  }
 
   const getSlotColor = (slots) => {
-    if (slots > 30) return 'text-green-600';
-    if (slots > 10) return 'text-yellow-600';
-    return 'text-red-600';
-  };
+    if (slots > 30) return 'text-blue-600'
+    if (slots > 10) return 'text-yellow-600'
+    return 'text-red-600'
+  }
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className="flex items-center justify-center min-h-screen bg-blue-50">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
       </div>
-    );
+    )
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-blue-50">
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
           <strong className="font-bold">Error:</strong>
           <span className="block sm:inline"> {error}</span>
         </div>
       </div>
-    );
+    )
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-4xl font-bold text-center mb-12 text-indigo-800">Discover Amazing Packages</h1>
+    <>
+    <Navbar/>
+    <div className="min-h-screen bg-blue-50 p-8">
+      <div className="relative text-center mb-12 rounded-lg overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?cs=srgb&dl=pexels-fabianwiktor-994605.jpg&fm=jpg')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(3px)',
+          }}
+        ></div>
+        <div className="relative z-10 p-24 lg:p-48">
+          <h1 className="text-5xl font-serif text-white">Discover Amazing Packages</h1>
+        </div>
+      </div>
 
       {!selectedPackage ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {packages.map((pkg) => (
             <div
               key={pkg.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer"
+              className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:scale-105 cursor-pointer"
               onClick={() => handlePackageClick(pkg)}
             >
               <div className="relative">
                 <img src={pkg.photos[0]} alt={pkg.name} className="w-full h-64 object-cover" />
-                <div className="absolute top-0 right-0 bg-indigo-600 text-white px-3 py-1 rounded-bl-lg">
+                <div className="absolute top-0 right-0 bg-blue-600 text-white px-3 py-1 rounded-bl-lg">
                   <span className="flex items-center">
                     <Star className="w-4 h-4 mr-1" />
                     {pkg.rating.toFixed(1)}
@@ -1276,11 +1308,11 @@ function Packages() {
                 </div>
               </div>
               <div className="p-6">
-                <h2 className="text-2xl font-semibold mb-2 text-indigo-700">{pkg.name}</h2>
+                <h2 className="text-2xl font-semibold mb-2 text-blue-600">{pkg.name}</h2>
                 <p className="text-gray-600 mb-4 h-12 overflow-hidden">{pkg.description.slice(0, 80)}...</p>
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-2xl font-bold text-indigo-600">₹{pkg.price}</span>
-                  <span className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="text-2xl font-bold text-blue-600">₹{pkg.price}</span>
+                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
                     {pkg.category}
                   </span>
                 </div>
@@ -1302,14 +1334,14 @@ function Packages() {
         <div className="bg-white rounded-lg shadow-lg p-8">
           <button
             onClick={() => setSelectedPackage(null)}
-            className="mb-6 text-indigo-600 hover:text-indigo-800 transition-colors duration-300 flex items-center"
+            className="mb-6 text-blue-600 hover:text-blue-800 transition-colors duration-300 flex items-center"
           >
             <ChevronRight className="w-5 h-5 mr-1 transform rotate-180" />
             Back to all packages
           </button>
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="lg:w-2/3">
-              <h2 className="text-3xl font-bold mb-4 text-indigo-800">{selectedPackage.name}</h2>
+              <h2 className="text-3xl font-bold mb-4 text-blue-600">{selectedPackage.name}</h2>
               <div className="mb-6 grid grid-cols-2 gap-4">
                 {selectedPackage.photos.map((photo, index) => (
                   <img key={index} src={photo} alt={`${selectedPackage.name} - ${index + 1}`} className="w-full h-64 object-cover rounded-lg" />
@@ -1317,13 +1349,13 @@ function Packages() {
               </div>
               <div className="flex mb-6 border-b">
                 <button
-                  className={`py-2 px-4 font-semibold ${activeTab === 'overview' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500'}`}
+                  className={`py-2 px-4 font-semibold ${activeTab === 'overview' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
                   onClick={() => setActiveTab('overview')}
                 >
                   Overview
                 </button>
                 <button
-                  className={`py-2 px-4 font-semibold ${activeTab === 'itinerary' ? 'text-indigo-600 border-b-2 border-indigo-600' : 'text-gray-500'}`}
+                  className={`py-2 px-4 font-semibold ${activeTab === 'itinerary' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500'}`}
                   onClick={() => setActiveTab('itinerary')}
                 >
                   Itinerary
@@ -1333,29 +1365,29 @@ function Packages() {
                 <>
                   <p className="text-gray-600 mb-6">{selectedPackage.description}</p>
                   <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="flex items-center bg-gray-50 p-4 rounded-lg">
-                      <MapPin className="w-8 h-8 text-indigo-600 mr-4" />
+                    <div className="flex items-center bg-blue-50 p-4 rounded-lg">
+                      <MapPin className="w-8 h-8 text-blue-600 mr-4" />
                       <div>
                         <h4 className="font-semibold">Location</h4>
                         <span>{selectedPackage.state}</span>
                       </div>
                     </div>
-                    <div className="flex items-center bg-gray-50 p-4 rounded-lg">
+                    <div className="flex items-center bg-blue-50 p-4 rounded-lg">
                       <Star className="w-8 h-8 text-yellow-400 mr-4" />
                       <div>
                         <h4 className="font-semibold">Rating</h4>
                         <span>{selectedPackage.rating.toFixed(1)} ({selectedPackage.number_of_person_views} views)</span>
                       </div>
                     </div>
-                    <div className="flex items-center bg-gray-50 p-4 rounded-lg">
+                    <div className="flex items-center bg-blue-50 p-4 rounded-lg">
                       <DollarSign className="w-8 h-8 text-green-600 mr-4" />
                       <div>
                         <h4 className="font-semibold">Price</h4>
                         <span className="text-2xl font-bold">₹{selectedPackage.price}</span>
                       </div>
                     </div>
-                    <div className="flex items-center bg-gray-50 p-4 rounded-lg">
-                      <Clock className="w-8 h-8 text-indigo-600 mr-4" />
+                    <div className="flex items-center bg-blue-50 p-4 rounded-lg">
+                      <Clock className="w-8 h-8 text-blue-600 mr-4" />
                       <div>
                         <h4 className="font-semibold">Best Time to Visit</h4>
                         <span>{selectedPackage.best_time}</span>
@@ -1371,14 +1403,14 @@ function Packages() {
                 <div className="mb-6">
                   <h3 className="text-xl font-semibold mb-4">Itinerary</h3>
                   {selectedPackage.itinerary.map((day, index) => (
-                    <div key={index} className="mb-8 bg-gray-50 p-6 rounded-lg">
-                      <h4 className="font-semibold text-lg mb-4 text-indigo-700">Day {day.day}: {day.description}</h4>
+                    <div key={index} className="mb-8 bg-blue-50 p-6 rounded-lg">
+                      <h4 className="font-semibold text-lg mb-4 text-blue-700">Day {day.day}: {day.description}</h4>
                       <div className="flex flex-col md:flex-row gap-6">
                         <div className="md:w-1/2">
                           <p className="text-gray-600 mb-4">{day.activities}</p>
                           <div className="flex flex-wrap gap-2">
                             {day.activities.split(', ').map((activity, actIndex) => (
-                              <span key={actIndex} className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm">
+                              <span key={actIndex} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
                                 {activity}
                               </span>
                             ))}
@@ -1394,14 +1426,11 @@ function Packages() {
               )}
             </div>
             <div className="lg:w-1/3">
-              <div className="bg-gray-100 p-6 rounded-lg sticky top-8">
+              <div className="bg-blue-50 p-6 rounded-lg sticky top-8">
                 <h3 className="text-xl font-semibold mb-4">Available Dates</h3>
                 {selectedPackage.available_dates.map((date) => {
-                  const formattedDate = new Date(date).toLocaleDateString();
-                  const slots = selectedPackage.slots[date.split(' ')[0]];
-                  console.log(selectedPackage.slots);
-                  console.log(slots)
-                  
+                  const formattedDate = new Date(date).toLocaleDateString()
+                  const slots = selectedPackage.slots[date.split(' ')[0]]
                   return (
                     <div key={date} className="mb-2 flex items-center">
                       <input
@@ -1418,7 +1447,7 @@ function Packages() {
                         <span className={getSlotColor(slots)}>{slots} slots</span>
                       </label>
                     </div>
-                  );
+                  )
                 })}
                 <div className="mt-4">
                   <label htmlFor="numberOfPersons" className="block text-sm font-medium text-gray-700 mb-1">
@@ -1441,7 +1470,7 @@ function Packages() {
                   disabled={!selectedDate}
                   className={`mt-4 w-full py-2 px-4 rounded-md ${
                     selectedDate
-                      ? 'bg-indigo-600 text-white hover:bg-indigo-700'
+                      ? 'bg-blue-600 text-white hover:bg-blue-700'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   } transition-colors duration-300 flex items-center justify-center`}
                 >
@@ -1454,7 +1483,8 @@ function Packages() {
         </div>
       )}
     </div>
+    </>
   );
 }
 
-export default Packages;
+export default Packages

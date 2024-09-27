@@ -14,22 +14,33 @@ const INDIAN_STATES = [
 ]
 
 const fetchPackages = async () => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/add_static_package/`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    })
-    if (!response.ok) throw new Error('Failed to fetch packages')
-    const data = await response.json()
-    return data
-  } catch (error) {
-    console.error('Error fetching packages:', error)
-    return []
-  }
-}
+    try {
+      const username = Cookies.get('username');
+      
+      // Check if the user is not admin
+      if (username !== 'admin') {
+        alert('You are not allowed'); 
+        window.location.href = '/';   
+        return;                       
+      }
+  
+      const response = await fetch(`${API_BASE_URL}/add_static_package/`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      });
+  
+      if (!response.ok) throw new Error('Failed to fetch packages');
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching packages:', error);
+      return [];
+    }
+  };
 
 const fetchHiddenGems = async () => {
   try {
@@ -533,7 +544,9 @@ function AddEditForm({ initialData, onSubmit, onCancel, type }) {
   const handleDateChange = (e) => {
     const { name, value } = e.target
     const [year, month, day] = value.split('-')
-    const date = new Date(year, month - 1, day).toISOString()
+    const date1 = new Date(year, month - 1, day).toISOString()
+    const date = date1.substring(0, 10);
+    console.log(date)
     setFormData({
       ...formData,
       available_dates: [...formData.available_dates, date],

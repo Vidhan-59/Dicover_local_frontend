@@ -209,22 +209,9 @@ function Cabs() {
                   value={bookingDetails.date}
                   onChange={(e) => setBookingDetails({ ...bookingDetails, date: e.target.value })}
                   className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  min={new Date().toISOString().split('T')[0]}
+                  min={new Date(Date.now() + 86400000).toISOString().split("T")[0]}
                 />
               </div>
-            </div>
-            <div className="mb-4">
-              <label htmlFor="bookingDuration" className="block text-sm font-medium text-gray-700 mb-1">
-                Duration (days)
-              </label>
-              <input
-                type="number"
-                id="bookingDuration"
-                min="1"
-                value={bookingDetails.duration}
-                onChange={(e) => setBookingDetails({ ...bookingDetails, duration: Math.max(1, parseInt(e.target.value)) })}
-                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              />
             </div>
             <div className="mb-6">
               <p className="text-lg font-semibold flex items-center">

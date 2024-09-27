@@ -39,7 +39,9 @@ import UserProfile from './Pages/UserProfile';
 import Guides from './components/Guide';
 import Cabs from './components/Cabs';
 import AdminPanel from './components2/Admin';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Ensure the CSS is included
+import TransactionPage from './components2/Transaction';
 function App() {
   return (
     <Router>
@@ -59,8 +61,9 @@ function App() {
          <Route path="/guide" element={<Guides/>}/>
          <Route path="/cabs" element={<Cabs/>}/>
          <Route path="/admin" element={<AdminPanel/>}/>
-        
+         <Route path="/transaction" element={<TransactionPage/>}/>
         </Routes>
+        <ToastContainer position="top-center" autoClose={3000} />
       </div>
     </Router>
   );
