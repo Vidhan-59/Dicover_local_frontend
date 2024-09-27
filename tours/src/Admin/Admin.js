@@ -1,8 +1,8 @@
-'use client'
-
 import React, { useState, useEffect } from 'react'
 import { ChevronDown, ChevronUp, Edit, Trash, Search, User, Plus, X } from 'lucide-react'
 import Cookies from 'js-cookie'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const API_BASE_URL = 'http://127.0.0.1:8000/api'
 
@@ -19,7 +19,10 @@ const fetchPackages = async () => {
       
       // Check if the user is not admin
       if (username !== 'admin') {
-        alert('You are not allowed'); 
+        toast.error('Please login first', {
+          position: "top-center",
+          autoClose: 3000,
+        })
         window.location.href = '/';   
         return;                       
       }

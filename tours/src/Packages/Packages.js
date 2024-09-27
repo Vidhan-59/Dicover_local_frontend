@@ -1158,8 +1158,9 @@ import Cookies from 'js-cookie'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Star, Calendar, DollarSign, Clock, Users, MapPin, ChevronRight, X, Camera, Compass, Sunrise, Sunset, Coffee, Utensils } from 'lucide-react'
-import Navbar from '../components/Navbar'
+import Navbar from '../Navbar'
 import { useNavigate } from 'react-router-dom';
+import Footer from '../Home/footer'
 function Packages() {
   const navigate  = useNavigate()
   const [packages, setPackages] = useState([])
@@ -1236,7 +1237,7 @@ function Packages() {
       if (response.ok) {
         toast.success('Booking successful!')
         setSelectedPackage(null)
-        navigate('/guide');
+        navigate('/transaction');
       } else {
         throw new Error('Booking failed')
       }
@@ -1483,6 +1484,7 @@ function Packages() {
         </div>
       )}
     </div>
+    <Footer/>
     </>
   );
 }

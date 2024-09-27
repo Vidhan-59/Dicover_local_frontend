@@ -1,6 +1,6 @@
-import DestinationPage from "../components2/DestinationCard";
-import CarouselComponent from "../components2/carousel";
-import Navbar from "../components/Navbar";
+import DestinationPage from "./DestinationCard";
+import CarouselComponent from "./carousel";
+import Navbar from "../Navbar";
 
 const Places = ()=>{
     return(

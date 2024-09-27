@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom'
 import { Car, Users, Calendar, DollarSign, X, CheckCircle, XCircle, ChevronRight } from 'lucide-react'
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Cabs() {
   const navigate = useNavigate()
   const [cabs, setCabs] = useState([])
@@ -35,6 +36,7 @@ function Cabs() {
       }
       const data = await response.json()
       setCabs(data)
+      
       setLoading(false)
     } catch (err) {
       setError('Failed to fetch cabs. Please try again later.')
@@ -44,7 +46,7 @@ function Cabs() {
 
   const handleBookCab = async () => {
     if (!bookingDetails.date) {
-      alert('Please select a date')
+      toast.error('Please select a date')
       return
     }
     try {
@@ -63,12 +65,12 @@ function Cabs() {
       if (!response.ok) {
         throw new Error('Booking failed')
       }
-      alert('Booking successful!')
       setSelectedCab(null)
       setBookingDetails({ date: '', duration: 1 })
+      toast.success('Booking successful!')
       navigate('/transaction')
     } catch (err) {
-      alert('Booking failed. Please try again.')
+      toast.error('Booking failed. Please try again.')
     }
   }
 

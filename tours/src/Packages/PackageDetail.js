@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaMapMarkerAlt, FaCalendarAlt, FaInfoCircle, FaStar, FaUsers, FaClock } from 'react-icons/fa';
 import './PackageDetail.css'; // For styling
-import Navbar from "../components/Navbar";
-
+import Navbar from "../Navbar";
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 const PackageDetail = () => {
   const { id } = useParams();
   const [pkg, setPkg] = useState(null);

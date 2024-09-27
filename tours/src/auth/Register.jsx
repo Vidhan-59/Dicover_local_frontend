@@ -399,9 +399,6 @@
 //   );
 // }
 
-
-
-
 import React, { useState } from 'react';
 
 export default function Register() {
@@ -537,24 +534,15 @@ export default function Register() {
   };
 
   const containerStyle = {
-    maxWidth: '500px',
+    maxWidth: '400px',
     margin: '0 auto',
-    padding: '40px',
-    fontFamily: '"Times New Roman", Times, serif',
-    backgroundImage: 'url(https://png.pngtree.com/background/20210709/original/pngtree-travel-poster-summer-vacation-vacation-summer-tour-picture-image_946320.jpg)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundBlendMode: 'overlay',
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    borderRadius: '10px',
-    backdropFilter: 'blur(10px)',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+    padding: '20px',
+    fontFamily: 'Arial, sans-serif',
   };
 
   const headingStyle = {
     textAlign: 'center',
-    color: '#0044cc',
-    marginBottom: '10px',
+    color: '#333',
   };
 
   const formStyle = {
@@ -564,16 +552,16 @@ export default function Register() {
 
   const inputContainerStyle = {
     position: 'relative',
-    marginBottom: '20px',
+    marginBottom: '15px',
   };
 
   const inputStyle = {
     width: '100%',
-    padding: '12px',
-    paddingLeft: '40px',
+    padding: '10px',
+    paddingLeft: '30px',
     border: '1px solid #ccc',
-    borderRadius: '6px',
-    fontSize: '18px',
+    borderRadius: '4px',
+    fontSize: '16px',
   };
 
   const iconStyle = {
@@ -581,8 +569,7 @@ export default function Register() {
     left: '10px',
     top: '50%',
     transform: 'translateY(-50%)',
-    color: '#0044cc',
-    fontSize: '20px',
+    color: '#888',
   };
 
   const selectStyle = {
@@ -591,26 +578,24 @@ export default function Register() {
   };
 
   const buttonStyle = {
-    backgroundColor: '#0056d6',
+    backgroundColor: '#4CAF50',
     color: 'white',
-    padding: '12px',
+    padding: '10px',
     border: 'none',
-    borderRadius: '6px',
-    fontSize: '18px',
+    borderRadius: '4px',
+    fontSize: '16px',
     cursor: 'pointer',
-    marginTop: '10px',
   };
 
   const messageStyle = {
     textAlign: 'center',
-    marginTop: '15px',
+    marginTop: '10px',
     color: error ? 'red' : 'green',
   };
 
   const footerStyle = {
     textAlign: 'center',
     marginTop: '20px',
-    color: '#0056d6',
   };
 
   return (
@@ -619,7 +604,7 @@ export default function Register() {
       <h3 style={headingStyle}>Become part of our explorer journey</h3>
       <form onSubmit={handleSubmit} style={formStyle}>
         <div style={inputContainerStyle}>
-          <i className="fas fa-user" style={{ ...iconStyle, color: '#ff6347' }}></i>
+          <i className="fas fa-user" style={iconStyle}></i>
           <input
             type="text"
             name="username"
@@ -631,7 +616,7 @@ export default function Register() {
           />
         </div>
         <div style={inputContainerStyle}>
-          <i className="fas fa-envelope" style={{ ...iconStyle, color: '#1e90ff' }}></i>
+          <i className="fas fa-envelope" style={iconStyle}></i>
           <input
             type="email"
             name="email"
@@ -643,7 +628,7 @@ export default function Register() {
           />
         </div>
         <div style={inputContainerStyle}>
-          <i className="fas fa-phone" style={{ ...iconStyle, color: '#32cd32' }}></i>
+          <i className="fas fa-phone" style={iconStyle}></i>
           <input
             type="text"
             name="contact_number"
@@ -655,7 +640,7 @@ export default function Register() {
           />
         </div>
         <div style={inputContainerStyle}>
-          <i className="fas fa-map-marker-alt" style={{ ...iconStyle, color: '#ff4500' }}></i>
+          <i className="fas fa-map-marker-alt" style={iconStyle}></i>
           <select
             name="state"
             value={formData.state}
@@ -670,7 +655,7 @@ export default function Register() {
           </select>
         </div>
         <div style={inputContainerStyle}>
-          <i className="fas fa-lock" style={{ ...iconStyle, color: '#800080' }}></i>
+          <i className="fas fa-lock" style={iconStyle}></i>
           <input
             type="password"
             name="password"
@@ -683,7 +668,7 @@ export default function Register() {
         </div>
         {showOtp && (
           <div style={inputContainerStyle}>
-            <i className="fas fa-key" style={{ ...iconStyle, color: '#ffa500' }}></i>
+            <i className="fas fa-key" style={iconStyle}></i>
             <input
               type="text"
               name="otp"
@@ -704,7 +689,7 @@ export default function Register() {
       {(message || error) && <p style={messageStyle}>{message || error}</p>}
       <footer style={footerStyle}>
         <p>
-          Already have an account? <a href="/login" style={{ color: '#0044cc' }}>Login</a>
+          Already have an account? <a href="/login">Login</a>
         </p>
       </footer>
     </div>

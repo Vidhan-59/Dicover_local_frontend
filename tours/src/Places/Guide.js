@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom'
 import { Star, Calendar, X, MapPin, DollarSign, ChevronRight } from 'lucide-react'
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function Guides() {
   const navigate = useNavigate()
   const [guides, setGuides] = useState([])
@@ -38,7 +39,7 @@ function Guides() {
 
   const handleBookGuide = async (guideId) => {
     if (!bookingDate) {
-      alert('Please select a date')
+      toast.error('Please select a date')
       return
     }
     try {
@@ -53,12 +54,13 @@ function Guides() {
       if (!response.ok) {
         throw new Error('Booking failed')
       }
-      alert('Booking successful!')
+      
       setSelectedGuide(null)
       setBookingDate('')
+      toast.success('Booking successful!')
       navigate('/cabs/', { replace: true })
     } catch (err) {
-      alert(`Booking failed: ${err.message}`)
+      toast.error(`Booking failed: ${err.message}`)
     }
   }
 

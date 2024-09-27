@@ -57,10 +57,9 @@ const ImageSlider = () => {
 
         <a
           href={imageData[currentIndex].moreInfoLink}
-          className="view-more-button"
-          onClick={console.log('hree')}
+          
         >
-          View More
+          {/* View More */}
         </a>
       </div>
     </div>

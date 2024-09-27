@@ -1,6 +1,6 @@
 import React from 'react';
 // import './App.css';
-import Navbar from './Navbar';  // Import the Navbar component
+import Navbar from '../Navbar';  // Import the Navbar component
 import ImageSlider from './ImageSlider';
 import DestinationBlock from './DestinationBlock';
 import PopularDestinations from './PopularDestination';

@@ -968,7 +968,7 @@ import React, { useState, useEffect } from 'react';
 import { Line, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import Cookies from 'js-cookie';
-import Navbar from '../components/Navbar';
+import Navbar from '../Navbar';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement);
 
